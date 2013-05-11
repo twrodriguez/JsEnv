@@ -6,8 +6,6 @@
   //
 
   var origThis = this,
-      platform = "UnknownPlatform",
-      deployment = "PRODUCTION",
       // Heavily-Used Constants
       TITANIUM = "Titanium",
       PHONEGAP = "PhoneGap",
@@ -149,7 +147,8 @@
   Tests.getDeploymentStage = function() {
     var root = getGlobalScope(),
         doc = root.document,
-        proc = root.process;
+        proc = root.process,
+        deploy = "PRODUCTION";
 
     if (doc && doc.getElementsByTagName) {
       var htmlTag = doc.getElementsByTagName("html")[0],
@@ -162,19 +161,19 @@
         matchFound = bodyTag.classList.toString().match(/development|testing|staging|debug/i);
       }
       if (matchFound) {
-        deployment = matchFound[0].toUpperCase();
+        deploy = matchFound[0].toUpperCase();
       } else {
-        deployment = "PRODUCTION";
+        deploy = "PRODUCTION";
       }
     } else if (proc && proc.env) {
       if (proc.env.NODE_ENV) {
-        deployment = proc.env.NODE_ENV.toUpperCase();
+        deploy = proc.env.NODE_ENV.toUpperCase();
       } else {
-        deployment = "DEVELOPMENT";
+        deploy = "DEVELOPMENT";
       }
     }
 
-    return deployment;
+    return deploy;
   }
 
   //
@@ -183,10 +182,11 @@
 
   Tests.getOS = function() {
     var OS = undefined,
+        plat = Tests.getPlatformAndVersion(),
         root = getGlobalScope(),
         nav = root.navigator;
 
-    switch (platform) {
+    switch (plat.platform) {
       case TITANIUM:
         // TODO
         break;
@@ -197,6 +197,7 @@
         OS = root.Ti && root.Ti.Platform && root.Ti.Platform.getName();
         break;
       case RHINO:
+        // TODO
         break;
       case NODEWEBKIT:
       case NODE:
@@ -245,7 +246,7 @@
     }
   };
 
-  JsEnv[deployment] = true;
+  JsEnv[deploy] = true;
   JsEnv[plat.platform] = plat.version;
   JsEnv[os] = true;
   JsEnv.JsEnv = JsEnv;

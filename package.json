@@ -1,4 +1,17 @@
 {
+  "author": {
+    "name": "Tim Rodriguez",
+    "email": "tw.rodriguez@gmail.com",
+    "url": "http://www.twrodriguez.com"
+  },
+  "license": "Simplified BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twrodriguez/JsEnv.git"
+  },
+  "engines": {
+    "node": ">= 0.4.12"
+  },
   "name": "js_env",
   "version": "1.0.0",
   "dependencies": {}
